@@ -16,7 +16,6 @@ const createVerification = async (
   verificationData: VerificationType,
   DB: D1Database
 ) => {
-  console.log("Logging from verify...");
   await db(DB)
     .insert(verificationTable)
     .values(verificationData)

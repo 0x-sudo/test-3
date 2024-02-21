@@ -4,5 +4,5 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "cosmos_db"
-database_id = "d8250e43-be32-4b6d-b3af-026e89203b12"
+database_name = "cosmos_db_prod"
+database_id = "19885b0b-8e77-4773-91c9-f55ca444e734"

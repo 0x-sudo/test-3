@@ -12,8 +12,8 @@
     "deploy": "wrangler pages deploy ./build/client",
     "generate": "drizzle-kit generate:sqlite",
     "drop": "drizzle-kit drop",
-    "migrate:local": "wrangler d1 migrations apply cosmos_db --local",
-    "migrate:prod": "wrangler d1 migrations apply cosmos_db",
+    "migrate:local": "wrangler d1 migrations apply cosmos_db_prod --local",
+    "migrate:prod": "wrangler d1 migrations apply cosmos_db_prod",
     "typecheck": "tsc",
     "typegen": "wrangler types"
   },

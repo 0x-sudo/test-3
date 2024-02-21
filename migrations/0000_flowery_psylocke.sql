@@ -9,10 +9,24 @@ CREATE TABLE `user` (
 	`email` text NOT NULL,
 	`username` text NOT NULL,
 	`name` text,
-	`created_at` text DEFAULT CURRENT_TIMESTAMP,
-	`updated_at` text DEFAULT CURRENT_TIMESTAMP
+	`created_at` text,
+	`updated_at` text
+);
+--> statement-breakpoint
+CREATE TABLE `verification` (
+	`id` text PRIMARY KEY NOT NULL,
+	`created_at` text NOT NULL,
+	`type` text,
+	`target` text,
+	`secret` text,
+	`algorithm` text,
+	`digits` integer,
+	`period` integer,
+	`charset` text,
+	`expires_at` text
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `password_user_id_unique` ON `password` (`user_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
-CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);
+CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);--> statement-breakpoint
+CREATE UNIQUE INDEX `type_target_idx` ON `verification` (`target`,`type`);
