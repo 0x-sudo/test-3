@@ -16,14 +16,14 @@ CREATE TABLE `user` (
 CREATE TABLE `verification` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` text NOT NULL,
-	`type` text,
-	`target` text,
-	`secret` text,
-	`algorithm` text,
-	`digits` integer,
-	`period` integer,
-	`charset` text,
-	`expires_at` text
+	`type` text NOT NULL,
+	`target` text NOT NULL,
+	`secret` text NOT NULL,
+	`algorithm` text NOT NULL,
+	`digits` integer NOT NULL,
+	`period` integer NOT NULL,
+	`charset` text NOT NULL,
+	`expires_at` integer
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `password_user_id_unique` ON `password` (`user_id`);--> statement-breakpoint
