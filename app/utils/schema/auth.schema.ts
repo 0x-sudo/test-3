@@ -39,14 +39,14 @@ export const verificationTable = sqliteTable(
     createdAt: text("created_at")
       .notNull()
       .$defaultFn(() => new Date().toUTCString()),
-    type: text("type"),
-    target: text("target"),
-    secret: text("secret"),
-    algorithm: text("algorithm"),
-    digits: integer("digits"),
-    period: integer("period"),
-    charSet: text("charset"),
-    expiresAt: text("expires_at"),
+    type: text("type").notNull(),
+    target: text("target").notNull(),
+    secret: text("secret").notNull(),
+    algorithm: text("algorithm").notNull(),
+    digits: integer("digits").notNull(),
+    period: integer("period").notNull(),
+    charSet: text("charset").notNull(),
+    expiresAt: integer("expires_at", { mode: "timestamp" }),
   },
   (table) => {
     return {

@@ -5,7 +5,7 @@ import { z } from "zod";
 import { db } from "~/utils/db.server";
 import { EmailSchema } from "~/utils/user-validation";
 import { prepareVerification } from "./_auth.verify";
-import { Form } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { VerificationType, verificationTable } from "~/utils/schema";
 
 const SignupSchema = z.object({
@@ -79,9 +79,17 @@ export async function action({ request, context }: ActionFunctionArgs) {
 
 export default function Signup() {
   return (
-    <div>
-      <h1>Signup</h1>
-      <Form method="post">
+    <div className="flex flex-col space-y-6 max-w-sm mx-auto">
+      <Link
+        to="/"
+        className="bg-zinc-800 text-zinc-300 text-xs font-medium px-4 py-2 absolute bottom-4 right-4 shadow-md"
+      >
+        Home
+      </Link>
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-4xl font-bold">Create an account</h1>
+      </div>
+      <Form method="post" className="flex flex-col space-y-3">
         <input
           type="email"
           name="email"
@@ -89,7 +97,12 @@ export default function Signup() {
           placeholder="name@example.com"
           className="bg-transparent text-white border border-zinc-700 p-4"
         />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="text-sm font-semibold py-4 w-full bg-zinc-700 shadow-md"
+        >
+          Submit
+        </button>
       </Form>
     </div>
   );
