@@ -9,7 +9,7 @@
     "postinstall": "npm run typegen",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "wrangler pages dev ./build/client",
-    "deploy": "wrangler pages deploy ./build/client --compatibility-flags=\"nodejs_compat\"",
+    "deploy": "wrangler pages deploy ./build/client",
     "generate": "drizzle-kit generate:sqlite",
     "drop": "drizzle-kit drop",
     "migrate:local": "wrangler d1 migrations apply cosmos_db --local",
