@@ -1,5 +1,5 @@
 import { migrate } from "drizzle-orm/libsql/migrator";
-import { db } from "./db";
+import { db } from "./db.server";
 
 try {
   console.time("Migration Completed");

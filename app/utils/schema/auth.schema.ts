@@ -1,5 +1,11 @@
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  integer,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 import { createId as cuid } from "@paralleldrive/cuid2";
+import { InferInsertModel } from "drizzle-orm";
 
 export const userTable = sqliteTable("user", {
   id: text("id")
@@ -22,3 +28,34 @@ export const passwordTable = sqliteTable("password", {
       onUpdate: "cascade",
     }),
 });
+
+export const verificationTable = sqliteTable(
+  "verification",
+  {
+    id: text("id")
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => cuid()),
+    createdAt: text("created_at")
+      .notNull()
+      .$defaultFn(() => new Date().toUTCString()),
+    type: text("type"),
+    target: text("target"),
+    secret: text("secret"),
+    algorithm: text("algorithm"),
+    digits: integer("digits"),
+    period: integer("period"),
+    charSet: text("charset"),
+    expiresAt: text("expires_at"),
+  },
+  (table) => {
+    return {
+      typeTargetIdx: uniqueIndex("type_target_idx").on(
+        table.target,
+        table.type
+      ),
+    };
+  }
+);
+
+export type VerificationType = InferInsertModel<typeof verificationTable>;
