@@ -1,9 +1,7 @@
 import { generateTOTP } from "@epic-web/totp";
 import { z } from "zod";
-import { db } from "~/utils/db.server";
 import { getDomainUrl } from "~/utils/misc";
-import { VerificationType, verificationTable } from "~/utils/schema";
-import { serverOnly$ } from "vite-env-only";
+import { VerificationType } from "~/utils/schema";
 
 export const codeQueryParam = "code";
 export const targetQueryParam = "target";
@@ -32,17 +30,6 @@ export function getRedirectToUrl({
   }
   return redirectToUrl;
 }
-
-const createVerification = async (verificationData: VerificationType) => {
-  console.log("Logging from verify...");
-  await db
-    .insert(verificationTable)
-    .values(verificationData)
-    .onConflictDoUpdate({
-      target: [verificationTable.type, verificationTable.target],
-      set: verificationData,
-    });
-};
 
 export async function prepareVerification({
   request,
@@ -73,11 +60,9 @@ export async function prepareVerification({
     ).toString(),
   };
 
-  serverOnly$(createVerification(verificationData));
-
   verifyUrl.searchParams.set(codeQueryParam, otp);
 
-  return { otp, redirectTo, verifyUrl };
+  return { otp, redirectTo, verifyUrl, verificationData };
 }
 
 export default function VerifyRoute() {

@@ -1,23 +1,39 @@
 import { parseWithZod } from "@conform-to/zod";
-import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/cloudflare";
 import { serverOnly$ } from "vite-env-only";
 import { z } from "zod";
 import { db } from "~/utils/db.server";
 import { EmailSchema } from "~/utils/user-validation";
 import { prepareVerification } from "./_auth.verify";
 import { Form } from "@remix-run/react";
+import { VerificationType, verificationTable } from "~/utils/schema";
 
 const SignupSchema = z.object({
   email: EmailSchema,
 });
 
-export async function action({ request }: ActionFunctionArgs) {
+const createVerification = async (
+  verificationData: VerificationType,
+  DB: D1Database
+) => {
+  console.log("Logging from verify...");
+  await db(DB)
+    .insert(verificationTable)
+    .values(verificationData)
+    .onConflictDoUpdate({
+      target: [verificationTable.type, verificationTable.target],
+      set: verificationData,
+    });
+};
+
+export async function action({ request, context }: ActionFunctionArgs) {
   const formData = await request.formData();
+  const { DB } = context.cloudflare.env;
 
   const submission = await parseWithZod(formData, {
     schema: SignupSchema.superRefine(async (data, ctx) => {
       const existingUser = serverOnly$(
-        await db.query.userTable.findFirst({
+        await db(DB).query.userTable.findFirst({
           where: (userTable, { eq }) => eq(userTable.email, data.email),
         })
       );
@@ -43,12 +59,16 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const { email } = submission.value;
 
-  const { verifyUrl, redirectTo, otp } = await prepareVerification({
-    request,
-    type: "onboarding",
-    target: email,
-    period: 10 * 60,
-  });
+  const { verifyUrl, redirectTo, otp, verificationData } =
+    await prepareVerification({
+      request,
+      type: "onboarding",
+      target: email,
+      period: 10 * 60,
+    });
+
+  // creates a verification entry in the table
+  serverOnly$(createVerification(verificationData, DB));
 
   console.log({
     "Verify URL": verifyUrl,

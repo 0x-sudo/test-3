@@ -1,0 +1,4 @@
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "cosmos_db"
+database_id = "d8250e43-be32-4b6d-b3af-026e89203b12"
