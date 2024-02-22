@@ -5,7 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import "./styles.css";
+import "./styles.css?url";
 
 export default function App() {
   return (
