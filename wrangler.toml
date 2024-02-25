@@ -1,8 +1,0 @@
-compatibility_date = "2024-02-25"
-node_compat = true
-compatibility_flags = [ "nodejs_compat" ]
-
-[[d1_databases]]
-binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "cosmos_db_prod"
-database_id = "5e7f2186-b7d3-48d8-a213-d69611becd73"

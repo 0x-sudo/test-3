@@ -1,7 +1,7 @@
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { generateTOTP, verifyTOTP } from "~/utils/totp.server";
-import { ActionFunctionArgs, json, redirect } from "@remix-run/cloudflare";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { serverOnly$ } from "vite-env-only";
 import { z } from "zod";
@@ -59,7 +59,7 @@ export async function prepareVerification({
   const verifyUrl = getRedirectToUrl({ request, type, target });
   const redirectTo = new URL(verifyUrl.toString())
 
-  const {otp, ...verificationConfig} = serverOnly$(generateTOTP({
+  const { otp, ...verificationConfig } = serverOnly$(generateTOTP({
     algorithm: "SHA256",
     charSet: "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789",
     period,
@@ -77,25 +77,22 @@ export async function prepareVerification({
   return { otp, redirectTo, verifyUrl, verificationData };
 }
 
-export async function action({ request, context }: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const { DB } = context.cloudflare.env;
-  return validateRequest(formData, DB);
+  return validateRequest(formData);
 }
 
 export async function isCodeValid({
   code,
   type,
   target,
-  DB,
 }: {
   code: string;
   type: VerificationTypes;
   target: string;
-  DB: D1Database;
 }) {
   const verification = serverOnly$(
-    await db(DB).query.verificationTable.findFirst({
+    await db.query.verificationTable.findFirst({
       where: (verificationTable, { gt, eq, and, or, isNull }) =>
         and(
           and(
@@ -126,7 +123,6 @@ export async function isCodeValid({
 
 export async function validateRequest(
   body: URLSearchParams | FormData,
-  DB: D1Database
 ) {
   const submission = await parseWithZod(body, {
     schema: VerifySchema.superRefine(async (data, ctx) => {
@@ -134,7 +130,6 @@ export async function validateRequest(
         code: data[codeQueryParam],
         type: data[typeQueryParam],
         target: data[targetQueryParam],
-        DB: DB,
       });
       if (!codeIsValid) {
         ctx.addIssue({
@@ -158,7 +153,7 @@ export async function validateRequest(
   const { value: submissionValue } = submission;
 
   async function deleteVerification() {
-    serverOnly$(await db(DB)
+    serverOnly$(await db
       .delete(verificationTable)
       .where(
         and(

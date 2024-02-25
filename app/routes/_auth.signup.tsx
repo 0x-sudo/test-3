@@ -1,5 +1,5 @@
 import { parseWithZod } from "@conform-to/zod";
-import { ActionFunctionArgs, json, redirect } from "@remix-run/cloudflare";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { serverOnly$ } from "vite-env-only";
 import { z } from "zod";
 import { db } from "~/utils/db.server";
@@ -14,9 +14,8 @@ const SignupSchema = z.object({
 
 const createVerification = async (
   verificationData: VerificationType,
-  DB: D1Database
 ) => {
-  await db(DB)
+  await db
     .insert(verificationTable)
     .values(verificationData)
     .onConflictDoUpdate({
@@ -25,14 +24,13 @@ const createVerification = async (
     });
 };
 
-export async function action({ request, context }: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const { DB } = context.cloudflare.env;
 
   const submission = await parseWithZod(formData, {
     schema: SignupSchema.superRefine(async (data, ctx) => {
       const existingUser = serverOnly$(
-        await db(DB).query.userTable.findFirst({
+        await db.query.userTable.findFirst({
           where: (userTable, { eq }) => eq(userTable.email, data.email),
         })
       );
@@ -67,7 +65,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
     });
 
   // creates a verification entry in the table
-  serverOnly$(createVerification(verificationData, DB));
+  serverOnly$(createVerification(verificationData));
 
   console.log({
     "Verify URL": verifyUrl,
