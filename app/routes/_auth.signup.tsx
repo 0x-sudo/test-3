@@ -6,23 +6,10 @@ import { db } from "~/utils/db.server";
 import { EmailSchema } from "~/utils/user-validation";
 import { prepareVerification } from "./_auth.verify";
 import { Form, Link } from "@remix-run/react";
-import { VerificationType, verificationTable } from "~/utils/schema";
 
 const SignupSchema = z.object({
   email: EmailSchema,
 });
-
-const createVerification = async (
-  verificationData: VerificationType,
-) => {
-  await db
-    .insert(verificationTable)
-    .values(verificationData)
-    .onConflictDoUpdate({
-      target: [verificationTable.type, verificationTable.target],
-      set: verificationData,
-    });
-};
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -56,16 +43,13 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const { email } = submission.value;
 
-  const { verifyUrl, redirectTo, otp, verificationData } =
+  const { verifyUrl, redirectTo, otp } =
     await prepareVerification({
       request,
       type: "onboarding",
       target: email,
       period: 10 * 60,
     });
-
-  // creates a verification entry in the table
-  serverOnly$(createVerification(verificationData));
 
   console.log({
     "Verify URL": verifyUrl,

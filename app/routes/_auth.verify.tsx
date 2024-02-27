@@ -72,9 +72,18 @@ export async function prepareVerification({
     expiresAt: new Date(Date.now() + verificationConfig.period * 1000),
   };
 
+  serverOnly$(await db
+    .insert(verificationTable)
+    .values(verificationData)
+    .onConflictDoUpdate({
+      target: [verificationTable.type, verificationTable.target],
+      set: verificationData,
+    })
+  )
+
   verifyUrl.searchParams.set(codeQueryParam, otp);
 
-  return { otp, redirectTo, verifyUrl, verificationData };
+  return { otp, redirectTo, verifyUrl };
 }
 
 export async function action({ request }: ActionFunctionArgs) {
