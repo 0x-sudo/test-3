@@ -5,7 +5,24 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import "./styles.css";
+import tailwindStyleSheetUrl from './styles/tailwind.css?url'
+import { LinksFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Comsos" },
+    { name: "description", content: "Trying out Remix!" },
+  ];
+};
+
+export const links: LinksFunction = () => {
+  return [
+    // Preload CSS as a resource to avoid render blocking
+    { rel: 'preload', href: tailwindStyleSheetUrl, as: 'style' },
+    { rel: 'stylesheet', href: tailwindStyleSheetUrl },
+  ].filter(Boolean)
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,7 +39,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-
   );
 }
 
