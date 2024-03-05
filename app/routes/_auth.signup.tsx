@@ -1,25 +1,104 @@
 import { Input } from "#app/components/ui/input.js";
-import { Form, Link } from "@remix-run/react";
+import { db } from "#app/utils/db.server";
+import { EmailSchema } from "#app/utils/user-validation";
+import { parseWithZod } from "@conform-to/zod";
+import {
+  ActionFunctionArgs,
+  MetaFunction,
+  json,
+  redirect,
+} from "@remix-run/node";
+import { Form } from "@remix-run/react";
+import { z } from "zod";
+import { prepareVerification } from "./verify.server";
+
+const SignupSchema = z.object({
+  email: EmailSchema,
+});
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Register | Comsos" },
+    { name: "description", content: "Create a new account" },
+  ];
+};
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+
+  const submission = await parseWithZod(formData, {
+    schema: SignupSchema.superRefine(async (data, ctx) => {
+      const existingUser = await db.query.userTable.findFirst({
+        where: (userTable, { eq }) => eq(userTable.email, data.email),
+        columns: {
+          id: true,
+        },
+      });
+      if (existingUser) {
+        ctx.addIssue({
+          path: ["email"],
+          code: z.ZodIssueCode.custom,
+          message: "A user already exists with this email",
+        });
+        return;
+      }
+    }),
+    async: true,
+  });
+  if (submission.status !== "success") {
+    return json(
+      { result: submission.reply() },
+      { status: submission.status === "error" ? 400 : 200 }
+    );
+  }
+
+  const { email } = submission.value;
+  const { verifyUrl, redirectTo, otp } = await prepareVerification({
+    period: 10 * 60,
+    request,
+    type: "onboarding",
+    target: email,
+  });
+
+  console.log("Verify URL: ", verifyUrl.toString(), "OTP: ", otp);
+
+  if (redirectTo) {
+    return redirect(redirectTo.toString());
+  } else {
+    return null;
+  }
+}
 
 export default function SignupRoute() {
   return (
-    <div>
-      <Link
-        to="/"
-        className="text-sm bg-zinc-800 px-4 py-2 absolute bottom-4 right-4 shadow-md rounded-lg"
+    <div className="flex flex-col space-y-6">
+      <h1 className="font-cal text-4xl">Create an account</h1>
+      <Form
+        className="my-8 flex flex-col w-full space-y-3 max-w-sm"
+        method="POST"
       >
-        Home
-      </Link>
-      <h1 className="font-cal text-5xl">Signup Route</h1>
-      <Form className="my-8 max-w-sm flex flex-col w-full space-y-3">
-        <Input id="email" placeholder="name@example.com" type="email" />
+        <Input placeholder="name@example.com" name="email" type="email" />
         <button
           type="submit"
-          className="bg-zinc-700 dark:bg-zinc-100 text-white dark:text-zinc-900 font-medium h-10 w-full rounded-md focus-visible:ring-[2px] dark:focus:outline-none dark:focus:ring-neutral-600"
+          className="bg-zinc-700 dark:bg-zinc-100 text-white dark:text-zinc-900 font-medium h-10 w-full rounded-md focus-visible:ring-[2px] dark:focus:outline-none dark:focus:ring-neutral-600 text-sm shadow-md"
         >
           Submit
         </button>
       </Form>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-zinc-600" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-zinc-900 px-2 text-zinc-600">Or</span>
+        </div>
+      </div>
+      <button
+        type="submit"
+        className="bg-zinc-700 dark:bg-zinc-800 text-white text-sm h-10 w-full rounded-md focus-visible:ring-[2px] dark:focus:outline-none dark:focus:ring-neutral-600 shadow-md"
+      >
+        Submit
+      </button>
     </div>
   );
 }

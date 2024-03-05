@@ -8,6 +8,13 @@
       "when": 1709558700278,
       "tag": "0000_stormy_the_twelve",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709623762798,
+      "tag": "0001_real_scarlet_spider",
+      "breakpoints": true
     }
   ]
 }
