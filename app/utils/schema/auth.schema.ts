@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { createId as cuid } from "@paralleldrive/cuid2";
 import { InferInsertModel, sql } from "drizzle-orm";
 
@@ -39,3 +39,18 @@ export const verificationTable = sqliteTable("verification", {
 })
 
 export type VerificationTableType = InferInsertModel<typeof verificationTable>
+
+export const sessionTable = sqliteTable("session", {
+  id: text("id").primaryKey().$defaultFn(() => cuid()),
+  expirationDate: integer("expiration_date", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  userId: text("user_id").notNull().references(() => userTable.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade"
+  })
+}, (table) => {
+  return {
+    useridIdx: index("userid_idx").on(table.userId)
+  }
+})

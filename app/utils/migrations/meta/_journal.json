@@ -15,6 +15,13 @@
       "when": 1709623762798,
       "tag": "0001_real_scarlet_spider",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1709744019147,
+      "tag": "0002_eager_bastion",
+      "breakpoints": true
     }
   ]
 }

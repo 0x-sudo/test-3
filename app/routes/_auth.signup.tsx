@@ -1,16 +1,17 @@
-import { Input } from "#app/components/ui/input.js";
 import { db } from "#app/utils/db.server";
 import { EmailSchema } from "#app/utils/user-validation";
-import { parseWithZod } from "@conform-to/zod";
+import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import {
   ActionFunctionArgs,
   MetaFunction,
   json,
   redirect,
 } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { Form, useActionData } from "@remix-run/react";
 import { z } from "zod";
-import { prepareVerification } from "./verify.server";
+import { prepareVerification } from "#app/utils/verify.server";
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
+import { Field } from "#app/components/forms";
 
 const SignupSchema = z.object({
   email: EmailSchema,
@@ -45,6 +46,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }),
     async: true,
   });
+
   if (submission.status !== "success") {
     return json(
       { result: submission.reply() },
@@ -70,14 +72,35 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function SignupRoute() {
+  const actionData = useActionData<typeof action>()
+  const [form, fields] = useForm({
+    id: "signup-form",
+    constraint: getZodConstraint(SignupSchema),
+    lastResult: actionData?.result,
+    onValidate({ formData }) {
+      const result = parseWithZod(formData, { schema: SignupSchema })
+      return result
+    },
+    shouldRevalidate: 'onBlur'
+  })
+
   return (
     <div className="flex flex-col space-y-6">
       <h1 className="font-cal text-4xl">Create an account</h1>
       <Form
-        className="my-8 flex flex-col w-full space-y-3 max-w-sm"
+        className="flex flex-col w-full max-w-sm"
         method="POST"
+        {...getFormProps(form)}
       >
-        <Input placeholder="name@example.com" name="email" type="email" />
+        <Field
+          inputProps={{
+            ...getInputProps(fields.email, { type: 'email' }),
+            autoFocus: true,
+            autoComplete: 'email',
+            placeholder: "name@example.com",
+          }}
+          errors={fields.email.errors}
+        />
         <button
           type="submit"
           className="bg-zinc-700 dark:bg-zinc-100 text-white dark:text-zinc-900 font-medium h-10 w-full rounded-md focus-visible:ring-[2px] dark:focus:outline-none dark:focus:ring-neutral-600 text-sm shadow-md"

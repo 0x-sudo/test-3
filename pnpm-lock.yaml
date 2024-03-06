@@ -11,6 +11,9 @@ dependencies:
   '@conform-to/zod':
     specifier: ^1.0.2
     version: 1.0.2(zod@3.22.4)
+  '@epic-web/invariant':
+    specifier: ^1.0.0
+    version: 1.0.0
   '@epic-web/totp':
     specifier: ^1.1.2
     version: 1.1.2
@@ -493,6 +496,10 @@ packages:
   /@emotion/hash@0.9.1:
     resolution: {integrity: sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==}
     dev: true
+
+  /@epic-web/invariant@1.0.0:
+    resolution: {integrity: sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==}
+    dev: false
 
   /@epic-web/totp@1.1.2:
     resolution: {integrity: sha512-ngw0+NjNgZ1ikmascnQWfut7dj0cuWqKwDM7m2w7JoOXHZCR0C5cx2aUPIl8oHOO2DQzkI6yaJLoc1bMDOn/oQ==}
