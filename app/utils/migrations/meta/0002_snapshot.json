@@ -28,12 +28,8 @@
           "name": "password_user_id_user_id_fk",
           "tableFrom": "password",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -84,9 +80,7 @@
       "indexes": {
         "userid_idx": {
           "name": "userid_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         }
       },
@@ -95,12 +89,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -151,16 +141,12 @@
       "indexes": {
         "user_email_unique": {
           "name": "user_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         },
         "user_username_unique": {
           "name": "user_username_unique",
-          "columns": [
-            "username"
-          ],
+          "columns": ["username"],
           "isUnique": true
         }
       },
@@ -246,10 +232,7 @@
       "indexes": {
         "type_target_idx": {
           "name": "type_target_idx",
-          "columns": [
-            "type",
-            "target"
-          ],
+          "columns": ["type", "target"],
           "isUnique": true
         }
       },

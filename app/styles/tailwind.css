@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    font-family: "Inter", sans-serif;
-    --font-sans: "Inter";
-    --font-cal: "CalSans";
-  }
-  @supports (font-variation-settings: normal) {
-    :root {
-      font-family: "InterVariable", sans-serif;
-      font-optical-sizing: auto;
-      --font-sans: "InterVariable";
-    }
-  }
+	:root {
+		font-family: 'Inter', sans-serif;
+		--font-sans: 'Inter';
+		--font-cal: 'CalSans';
+	}
+	@supports (font-variation-settings: normal) {
+		:root {
+			font-family: 'InterVariable', sans-serif;
+			font-optical-sizing: auto;
+			--font-sans: 'InterVariable';
+		}
+	}
 }
