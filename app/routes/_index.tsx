@@ -1,4 +1,6 @@
+import { buttonVariants } from '#app/components/ui/button'
 import { Icon } from '#app/components/ui/icon'
+import { cn } from '#app/utils/misc'
 import { Link } from '@remix-run/react'
 
 export default function Index() {
@@ -6,7 +8,7 @@ export default function Index() {
     <div className="mx-auto h-screen w-full max-w-4xl p-6 lg:px-0">
       <Link
         to="/signup"
-        className="absolute bottom-4 right-4 rounded-full bg-zinc-800 w-12 h-12 flex items-center justify-center text-zinc-300 shadow-md"
+        className={cn(buttonVariants({ variant: "outline", size: "icon" }), "absolute bottom-4 right-4 rounded-full")}
       >
         <Icon name='user' size='md' />
       </Link>
