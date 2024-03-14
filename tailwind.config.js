@@ -9,6 +9,7 @@ export default {
 			fontFamily: {
 				sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
 				cal: ['var(--font-cal)', ...defaultTheme.fontFamily.serif],
+				heading: ['var(--font-heading)', ...defaultTheme.fontFamily.serif],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

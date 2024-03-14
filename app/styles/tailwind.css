@@ -54,6 +54,7 @@
 		font-family: 'Plus Jakarta Sans', sans-serif;
 		--font-sans: 'Plus Jakarta Sans';
 		--font-cal: 'CalSans';
+		--font-heading: 'Bricolage Grotesque';
 	}
 	* {
 		@apply border-border;
