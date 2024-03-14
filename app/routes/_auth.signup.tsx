@@ -86,10 +86,10 @@ export default function SignupRoute() {
   })
 
   return (
-    <div className="flex flex-col space-y-6">
-      <h1 className="font-cal text-4xl">Create an account</h1>
+    <div className="flex flex-col space-y-6 w-full max-w-md">
+      <h1 className="font-heading text-5xl font-extrabold">Create an account</h1>
       <Form
-        className="flex w-full max-w-sm flex-col"
+        className="flex w-full flex-col"
         method="POST"
         {...getFormProps(form)}
       >
@@ -99,10 +99,11 @@ export default function SignupRoute() {
             autoFocus: true,
             autoComplete: 'email',
             placeholder: 'name@example.com',
+            className: "h-16 text-lg"
           }}
           errors={fields.email.errors}
         />
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' className="h-16 text-xl font-medium">Submit</Button>
       </Form>
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
@@ -112,7 +113,7 @@ export default function SignupRoute() {
           <span className="bg-background px-2 text-secondary-foreground">Or</span>
         </div>
       </div>
-      <Button variant="secondary">Login</Button>
+      <Button variant="secondary" className="h-16 text-xl font-medium">Login</Button>
     </div>
   )
 }

@@ -29,6 +29,9 @@ dependencies:
   '@remix-run/serve':
     specifier: ^2.8.0
     version: 2.8.0(typescript@5.3.3)
+  bcryptjs:
+    specifier: ^2.4.3
+    version: 2.4.3
   better-sqlite3:
     specifier: ^9.4.3
     version: 9.4.3
@@ -82,6 +85,9 @@ devDependencies:
   '@remix-run/dev':
     specifier: ^2.8.0
     version: 2.8.0(@remix-run/serve@2.8.0)(typescript@5.3.3)(vite@5.1.4)
+  '@types/bcryptjs':
+    specifier: ^2.4.6
+    version: 2.4.6
   '@types/better-sqlite3':
     specifier: ^7.6.9
     version: 7.6.9
@@ -3005,6 +3011,10 @@ packages:
       '@types/estree': 1.0.5
     dev: true
 
+  /@types/bcryptjs@2.4.6:
+    resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
+    dev: true
+
   /@types/better-sqlite3@7.6.9:
     resolution: {integrity: sha512-FvktcujPDj9XKMJQWFcl2vVl7OdRIqsSRX9b0acWwTmwLK9CF2eqo/FRcmMLNpugKoX/avA6pb7TorDLmpgTnQ==}
     dependencies:
@@ -3560,6 +3570,10 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       safe-buffer: 5.1.2
+
+  /bcryptjs@2.4.3:
+    resolution: {integrity: sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==}
+    dev: false
 
   /better-sqlite3@9.4.3:
     resolution: {integrity: sha512-ud0bTmD9O3uWJGuXDltyj3R47Nz0OHX8iqPOT5PMspGqlu/qQFn+5S2eFBUCrySpavTjFXbi4EgrfVvPAHlImw==}
