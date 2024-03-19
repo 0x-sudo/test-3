@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--background: 0 0% 99%;
+		--foreground: 0 0% 13%;
+		--card: 0 0% 98%;
+		--card-foreground: 0 0% 13%;
+		--popover: 0 0% 98%;
+		--popover-foreground: 0 0% 13%;
+		--primary: 272 51% 54%;
+		--primary-foreground: 0 0% 93%;
+		--secondary: 277 81% 94%;
+		--secondary-foreground: 270 50% 25%;
+		--muted: 0 0% 88%;
+		--muted-foreground: 0 0% 13%;
+		--accent: 0 0% 94%;
+		--accent-foreground: 0 0% 13%;
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 0 0% 81%;
+		--input: 0 0% 81%;
+		--ring: 272 51% 54%;
+		--radius: 0.3rem;
+	}
+
+	.dark {
+		--background: 0 0% 7%;
+		--foreground: 0 0% 93%;
+		--card: 0 0% 10%;
+		--card-foreground: 0 0% 93%;
+		--popover: 0 0% 10%;
+		--popover-foreground: 0 0% 93%;
+		--primary: 272 51% 54%;
+		--primary-foreground: 0 0% 93%;
+		--secondary: 277 39% 22%;
+		--secondary-foreground: 275 77% 92%;
+		--muted: 0 0% 19%;
+		--muted-foreground: 0 0% 93%;
+		--accent: 0 0% 13%;
+		--accent-foreground: 0 0% 93%;
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 0 0% 28%;
+		--input: 0 0% 28%;
+		--ring: 272 51% 54%;
+	}
+}
+
+@layer base {
+	:root {
+		font-family: 'Inter', sans-serif;
+		--font-sans: 'Inter';
+	}
+	@supports (font-variation-settings: normal) {
+		:root {
+			font-family: 'InterVariable', sans-serif;
+			font-optical-sizing: auto;
+			--font-sans: 'InterVariable';
+		}
+	}
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+		font-feature-settings:
+			'rlig' 1,
+			'calt' 1;
+	}
+}
