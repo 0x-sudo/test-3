@@ -1,18 +1,41 @@
-import { buttonVariants } from '#app/components/ui/button'
-import { Icon } from '#app/components/ui/icon'
-import { cn } from '#app/utils/misc'
-import { Link } from '@remix-run/react'
+import type { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "New Remix App" },
+    { name: "description", content: "Welcome to Remix!" },
+  ];
+};
 
 export default function Index() {
   return (
-    <div className="mx-auto h-screen w-full max-w-4xl p-6 lg:px-0">
-      <Link
-        to="/signup"
-        className={cn(buttonVariants({ variant: "secondary", size: "icon" }), "absolute bottom-4 right-4 rounded-full h-16 w-16")}
-      >
-        <Icon name='user' size='xl' />
-      </Link>
-      <h1 className="font-heading font-extrabold text-5xl">Cosmos</h1>
+    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+      <h1>Welcome to Remix</h1>
+      <ul>
+        <li>
+          <a
+            target="_blank"
+            href="https://remix.run/tutorials/blog"
+            rel="noreferrer"
+          >
+            15m Quickstart Blog Tutorial
+          </a>
+        </li>
+        <li>
+          <a
+            target="_blank"
+            href="https://remix.run/tutorials/jokes"
+            rel="noreferrer"
+          >
+            Deep Dive Jokes App Tutorial
+          </a>
+        </li>
+        <li>
+          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
+            Remix Docs
+          </a>
+        </li>
+      </ul>
     </div>
-  )
+  );
 }
