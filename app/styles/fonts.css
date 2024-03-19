@@ -1,4 +1,12 @@
 @font-face {
+	font-family: CalSans;
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('/fonts/CalSans-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
 	font-family: InterVariable;
 	font-style: normal;
 	font-weight: 100 900;
