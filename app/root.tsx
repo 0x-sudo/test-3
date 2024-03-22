@@ -4,19 +4,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useNavigate,
-} from '@remix-run/react'
-import './styles/fonts.css'
-import './styles/globals.css'
-import { RouterProvider } from 'react-aria-components'
-import { MetaFunction } from '@remix-run/node'
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'Cosmos' },
-    { name: 'description', content: `Trying out RemixJS` },
-  ]
-}
+} from "@remix-run/react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -27,20 +15,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="font-sans">
+      <body>
         {children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
-  )
+  );
 }
 
 export default function App() {
-  const navigate = useNavigate()
-  return (
-    <RouterProvider navigate={navigate}>
-      <Outlet />
-    </RouterProvider>
-  )
+  return <Outlet />;
 }
