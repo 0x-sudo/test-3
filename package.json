@@ -25,6 +25,7 @@
     "execa": "^8.0.1",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
+    "input-otp": "^1.2.2",
     "isbot": "^4.1.0",
     "node-html-parser": "^6.1.12",
     "pnpm": "^8.15.5",
